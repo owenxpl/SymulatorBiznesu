@@ -1,15 +1,14 @@
-<!-- File: templates/Articles/index.php -->
+<!-- File: templates/Articles/index.php (edit links added) -->
 <h1>Blog articles</h1>
-
-<?= $this->Html->link('Add Article', ['action' => 'add']) ?>
-
+<p><?= $this->Html->link("Add Article", ['action' => 'add']) ?></p>
 <table>
     <tr>
         <th>Id</th>
         <th>Title</th>
         <th>Created</th>
+        <th>Action</th>
     </tr>
-    <!-- Here is where we iterate through our $articles query object, printing out article info -->
+    <!-- Here's where we iterate through our $articles query object, printing out article info -->
     <?php foreach ($articles as $article) : ?>
         <tr>
             <td><?= $article->id ?></td>
@@ -18,6 +17,9 @@
             </td>
             <td>
                 <?= $article->created->format(DATE_RFC850) ?>
+            </td>
+            <td>
+                <?= $this->Html->link('Edit', ['action' => 'edit', $article->id]) ?>
             </td>
         </tr>
     <?php endforeach; ?>
