@@ -68,7 +68,16 @@ class UsersTable extends Table
             ->maxLength('role', 20)
             ->allowEmptyString('role');
 
-        return $validator;
+            return $validator
+            ->notEmpty('email', 'An email is required')
+            ->email('email')
+            ->notEmpty('password', 'A password is required')
+            ->notEmpty('role', 'A role is required')
+            ->add('role', 'inList', [
+            'rule' => ['inList', ['admin', 'author']],
+            'message' => 'Please enter a valid role'
+            ]);
+            
     }
 
     /**
