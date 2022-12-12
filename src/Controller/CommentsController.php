@@ -43,15 +43,19 @@ class CommentsController extends AppController
      *
      * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($article_id = null)
     {
+        $user_id = $_SESSION['Auth']['id'];
+
         $comment = $this->Comments->newEmptyEntity();
         if ($this->request->is('post')) {
             $comment = $this->Comments->patchEntity($comment, $this->request->getData());
+            $comment->article_id = $article_id;
+            $comment->user_id = $user_id;
             if ($this->Comments->save($comment)) {
                 $this->Flash->success(__('The comment has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect( array('controller' => 'Articles', 'action' => "view/".$article_id) );
             }
             $this->Flash->error(__('The comment could not be saved. Please, try again.'));
         }
@@ -99,6 +103,6 @@ class CommentsController extends AppController
             $this->Flash->error(__('The comment could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect($this->referer());
     }
 }

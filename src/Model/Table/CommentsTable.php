@@ -5,7 +5,7 @@ namespace App\Model\Table;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
-class ArticlesTable extends Table
+class CommentsTable extends Table
 {
     public function initialize(array $config): void
     {
@@ -14,9 +14,9 @@ class ArticlesTable extends Table
         $this->belongsTo('Articles', [
             'foreignKey' => 'article_id',
         ]);
-        $this->belongsTo('Users', [
-            'foreignKey' => 'user_id',
-        ]);
+        // $this->belongsTo('Users', [
+        //     'foreignKey' => 'user_id',
+        // ]);
     }
 
 
