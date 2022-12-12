@@ -10,10 +10,15 @@ if (@$_SESSION['Auth']) {
 ?>
 
 <?php
+
 foreach ($article->comments as $comment)
-    print("<h3>" . $comment->comment . "</h3>" . $this->Form->postLink(
-        'Delete',
-        array('controller' => 'Comments', 'action' => "delete/" . $comment->id),
-        ['confirm' => 'Are you sure?']
-    ))
+    if (@$_SESSION['Auth']['id'] == $comment->user_id) {
+        print("<h3>" . $comment->comment . "</h3>" . $this->Form->postLink(
+            'Delete',
+            array('controller' => 'Comments', 'action' => "delete/" . $comment->id),
+            ['confirm' => 'Are you sure?']
+        ));
+    } else {
+        print("<h3>" . $comment->comment . "</h3>");
+    }
 ?>

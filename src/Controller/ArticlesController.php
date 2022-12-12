@@ -36,7 +36,7 @@ class ArticlesController extends AppController
         $article = $this->Articles->get($id, [
             'contain' => ['Comments'],
         ]);
-
+        // debug($article);
         $this->set(compact('article'));
     }
 

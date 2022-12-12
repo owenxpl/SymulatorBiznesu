@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -55,7 +56,7 @@ class CommentsController extends AppController
             if ($this->Comments->save($comment)) {
                 $this->Flash->success(__('The comment has been saved.'));
 
-                return $this->redirect( array('controller' => 'Articles', 'action' => "view/".$article_id) );
+                return $this->redirect(array('controller' => 'Articles', 'action' => "view/" . $article_id));
             }
             $this->Flash->error(__('The comment could not be saved. Please, try again.'));
         }
@@ -95,14 +96,19 @@ class CommentsController extends AppController
      */
     public function delete($id = null)
     {
+        $user_id = $_SESSION['Auth']['id'];
+
         $this->request->allowMethod(['post', 'delete']);
         $comment = $this->Comments->get($id);
-        if ($this->Comments->delete($comment)) {
-            $this->Flash->success(__('The comment has been deleted.'));
+        if ($comment->user_id == $user_id) {
+            if ($this->Comments->delete($comment)) {
+                $this->Flash->success(__('The comment has been deleted.'));
+            } else {
+                $this->Flash->error(__('The comment could not be deleted. Please, try again.'));
+            }
         } else {
-            $this->Flash->error(__('The comment could not be deleted. Please, try again.'));
+            $this->Flash->error(__('You can only delete your own comments '));
         }
-
         return $this->redirect($this->referer());
     }
 }
